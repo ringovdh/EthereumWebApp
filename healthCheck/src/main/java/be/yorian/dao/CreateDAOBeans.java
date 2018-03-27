@@ -28,10 +28,9 @@ public class CreateDAOBeans {
 		sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setPackagesToScan(new String[] { "be.yorian.domain" });
-		sessionFactory.getHibernateProperties().put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		sessionFactory.getHibernateProperties().put("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
 		sessionFactory.getHibernateProperties().put("hibernate.use_sql_comments", true);
 		sessionFactory.getHibernateProperties().put("hibernate.globally_quoted_identifiers", "true");
-		sessionFactory.getHibernateProperties().put("hibernate.hbm2ddl.auto", "create");
 		return sessionFactory;
 	}
 	
