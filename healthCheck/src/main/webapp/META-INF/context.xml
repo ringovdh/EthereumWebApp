@@ -4,9 +4,9 @@
 		name="jdbc/healthCheck" 
 		type="javax.sql.DataSource"
 		driverClassName="net.sourceforge.jtds.jdbc.Driver" 
-		url="jdbc:jtds:sqlserver://127.0.0.1:1433/healthCheck"
+		url="jdbc:jtds:sqlserver://10.0.2.67:1433/healthCheck"
 		username="sa" 
-		password="test"
+		password="123E!health"
 		validationInterval='60000' 
 		validationQuery='select 1' 
 		testOnBorrow='true' 
