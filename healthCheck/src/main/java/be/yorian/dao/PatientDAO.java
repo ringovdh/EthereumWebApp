@@ -7,4 +7,6 @@ public interface PatientDAO{
 	public Patient findPatientByUserID(int userID);
 
 	public void savePatient(Patient patient);
+
+	public Patient findPatientByID(int id);
 }

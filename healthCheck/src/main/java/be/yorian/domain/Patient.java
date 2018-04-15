@@ -23,6 +23,8 @@ public class Patient {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dossierID")
 	private Dossier dossier;
+	
+	
 
 	
 	public Patient() {
@@ -91,6 +93,5 @@ public class Patient {
 	public void setDossier(Dossier dossier) {
 		this.dossier = dossier;
 	}
-
 	
 }

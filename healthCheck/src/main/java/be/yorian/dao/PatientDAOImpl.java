@@ -19,7 +19,7 @@ public class PatientDAOImpl implements PatientDAO{
 	@Override
 	public Patient findPatientByUserID(int userID) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query query = currentSession.createQuery("FROM Patient p LEFT JOIN fetch p.dossier WHERE userID = :userID");
+		Query query = currentSession.createQuery("FROM Patient p LEFT JOIN fetch p.dossier WHERE userID = :userID ");
 		query.setParameter("userID", userID);
 		Patient result = (Patient) query.uniqueResult();
 		return result;
@@ -27,8 +27,17 @@ public class PatientDAOImpl implements PatientDAO{
 
 	@Override
 	public void savePatient(Patient patient) {
-		// TODO Auto-generated method stub
-		
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(patient);
+	}
+
+	@Override
+	public Patient findPatientByID(int id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query query = currentSession.createQuery("FROM Patient WHERE id = :id");
+		query.setParameter("id", id);
+		Patient result = (Patient) query.uniqueResult();
+		return result;
 	}
 
 }

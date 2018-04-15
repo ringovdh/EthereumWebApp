@@ -17,15 +17,10 @@ public class PatientServiceImpl implements PatientService{
 	@Autowired
 	private UserDAO userDAO;
 
-	@Override
-	public Patient findPatient(String referentie) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void savePatient(Patient patient) {
-		// TODO Auto-generated method stub
+		patientDAO.savePatient(patient);
 		
 	}
 
@@ -33,8 +28,17 @@ public class PatientServiceImpl implements PatientService{
 	public Patient findPatientByUserName(Authentication loggedInUser) {
 
 		User user = userDAO.findUserByUserName(loggedInUser.getName());
+		Patient patient = patientDAO.findPatientByUserID(user.getUserID());
+		
+		return patient;
+	}
 
-		return patientDAO.findPatientByUserID(user.getUserID());
+	@Override
+	public Patient findPatientByID(int id) {
+		
+		Patient patient = patientDAO.findPatientByID(id);
+		
+		return patient;
 	}
 
 }

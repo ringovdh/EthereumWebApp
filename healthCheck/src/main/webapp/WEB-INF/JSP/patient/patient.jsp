@@ -16,39 +16,20 @@
 		<p>
 			welkom <b>${patient.voornaam}</b>
 		</p>
-		uw rijksregisternummer is ${patient.rijksregisternr}
-		<br>
-		<br>
-		<div class="panel panel-success">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					Mijn huisarts
-				</h4>
+		uw rijksregisternummer is ${patient.rijksregisternr} <br> <br>
+		<form:form method="POST" action="patient/bewaren" commandName="patient">
+		<form:hidden path = "id" value = "${patient.id}"/>
+			<div class="panel panel-success">
+				<div class="panel-heading">	
+					<form:label path='dossier.huisarts' class="panel-title">Mijn huisarts: </form:label>
+				</div>
+				<div class="panel-body">
+					<form:input path='dossier.huisarts'/>
+				</div>
 			</div>
-			<div class="panel-body">
-				<p>${patient.dossier.huisarts}</p>
-			</div>
-		</div>
-		<br>
-		<div class="panel panel-success">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					dossier gegevens (Ethereum)
-				</h4>
-			</div>
-			<table class = "table">    
-      			<tr>
-         			<td>contractadres</td>
-         			<td>${patient.dossier.contractaddress}</td>
-      			</tr>
-				<tr>
-			    	<td>transactieadres</td>
-			        <td>${patient.dossier.transactieaddress}</td>
-			    </tr>
-   </table>
-		</div>
-		<br>
-		<a href="<c:url value='/patient/registreer'/>" class="btn btn-primary">Dossier bewaren</a>
+			<br>
+			<input type="submit" value="Bewaren" name="save"/>
+		</form:form>
 		<br>
 	</div>
 	<br>
