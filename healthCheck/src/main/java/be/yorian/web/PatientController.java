@@ -1,20 +1,13 @@
 package be.yorian.web;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-import org.web3j.crypto.CipherException;
 
 import be.yorian.domain.Contract;
 import be.yorian.domain.Patient;
@@ -36,16 +29,15 @@ public class PatientController {
 
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showPatient(Authentication user) {
-		Patient patient = null;
+	public ModelAndView showPatient(Authentication user) throws Exception {
+		
+		Patient patient = patientService.findPatientByUserName(user);
+		boolean check = contractService.compareDossier(patient.getDossier());
+		
 		ModelAndView modelAndView = new ModelAndView(PATIENT_VIEW);
-		try {
-			patient = patientService.findPatientByUserName(user);
-		} catch (Exception e) {
-			modelAndView.addObject("error", "Er ging iets mis met het ophalen van de patient");
-		}
 		modelAndView.addObject("patient", patient);
-
+		modelAndView.addObject("check", check);
+		
 		return modelAndView;
 	}
 
@@ -56,13 +48,8 @@ public class PatientController {
 		
 		patient.getDossier().setHuisarts(patientModel.getDossier().getHuisarts());
 		
-		try {
-			Contract contract = contractService.handleContract(patient);
-	        ra.addFlashAttribute("contract", contract);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Contract contract = contractService.handleContract(patient);
+	    ra.addFlashAttribute("contract", contract);
 		
 		patientService.savePatient(patient);
 		

@@ -55,5 +55,14 @@ public class Dossier {
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Dossier [huisarts=" + huisarts + ", contract=" + contract.getID() + "]";
+	}
+	
+	
 	
 }

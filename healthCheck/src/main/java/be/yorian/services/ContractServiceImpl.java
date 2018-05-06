@@ -1,16 +1,9 @@
 package be.yorian.services;
 
-import java.math.BigInteger;
-import java.util.concurrent.Future;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
-import be.yorian.contract.HealthCheck;
 import be.yorian.dao.PatientDAO;
 import be.yorian.dao.UserDAO;
 import be.yorian.domain.Contract;
@@ -35,8 +28,8 @@ public class ContractServiceImpl implements ContractService {
 		Contract contract = dossier.getContract();
 		
 		if (contract.getContractaddress() == null) {
+			contract.setDossierstatus(server.createhash(dossier));
 			contract.setContractaddress(server.deployNewContract(dossier));
-			contract.setDossierstatus(Integer.toString(dossier.hashCode()));
 		}
 		else {
 			server.updateContract(dossier); 
@@ -53,6 +46,20 @@ public class ContractServiceImpl implements ContractService {
 		Patient patient = patientDAO.findPatientByUserID(user.getUserID());
 		
 		return patient.getDossier().getContract();
+	}
+
+
+	@Override
+	public boolean compareDossier(Dossier dossier) throws Exception {
+		ServerHelper server = new ServerHelper();
+		String dossierHash = server.createhash(dossier);
+		String dossierHashFromBlock = server.getDossierStatus(dossier);
+		if(dossierHash.equals(dossierHashFromBlock)) {
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 }

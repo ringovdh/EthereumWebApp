@@ -31,6 +31,7 @@
 			<input type="submit" value="Bewaren" name="save"/>
 		</form:form>
 		<br>
+		<div>Contractstatus is ${check}</div> 
 	</div>
 	<br>
 	<v:footer />
