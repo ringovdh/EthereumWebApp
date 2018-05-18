@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import be.yorian.dao.DossierDAO;
 import be.yorian.dao.PatientDAO;
 import be.yorian.dao.UserDAO;
 import be.yorian.domain.Contract;
@@ -19,21 +20,25 @@ public class ContractServiceImpl implements ContractService {
 	private PatientDAO patientDAO;
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private DossierDAO dossierDAO;
 	
 	@Override
-	public Contract handleContract(Patient patient) throws Exception {
+	public Contract handleContract(Dossier dossier) throws Exception {
 		
 		ServerHelper server = new ServerHelper();
-		Dossier dossier = patient.getDossier();
 		Contract contract = dossier.getContract();
 		
-		if (contract.getContractaddress() == null) {
+		if (contract == null) {
+			contract = new Contract();
 			contract.setDossierstatus(server.createhash(dossier));
-			contract.setContractaddress(server.deployNewContract(dossier));
+			contract.setContractaddress(server.deployNewContract(dossier,contract.getDossierstatus()));
+			dossier.setContract(contract);
 		}
 		else {
 			server.updateContract(dossier); 
 		}
+		dossierDAO.saveDossier(dossier);
 		
 		return contract;
 	}

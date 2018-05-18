@@ -8,7 +8,7 @@ import be.yorian.domain.Patient;
 
 public interface ContractService {
 	
-	Contract handleContract(Patient patient) throws Exception;
+	Contract handleContract(Dossier dossier) throws Exception;
 
 	Contract findContractByUserId(Authentication user);
 

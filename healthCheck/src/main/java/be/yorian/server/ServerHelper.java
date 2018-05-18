@@ -23,20 +23,17 @@ public class ServerHelper {
 	public ServerHelper() throws IOException, CipherException {
 		
 		this.web3jServer = startServer();
-		this.credentials = loadCredentials();
+		this.credentials = loadCredentials(); 
 	}
 	
-	public String deployNewContract(Dossier dossier) throws Exception {
-		BigInteger gasPrice = new BigInteger("21000000");
+	public String deployNewContract(Dossier dossier, String status) throws Exception {
+		BigInteger value = new BigInteger("210000000");
 		BigInteger gasLimit = new BigInteger("2100000");
-		
-		String referentie = Integer.toString(dossier.getDossier_id());
-		String status = dossier.getContract().getDossierstatus();
-		
-		HealthCheck contract = HealthCheck.deploy(web3jServer, credentials, gasPrice , gasLimit, referentie, status).send();
-		System.out.println( "contractaddress: "+contract.getContractAddress());
+		BigInteger patient_id = new BigInteger(dossier.getPatient());
+		HealthCheck localeContract = HealthCheck.deploy(web3jServer, credentials, value , gasLimit, patient_id, status).send();
+		System.out.println( "contractaddress: "+localeContract.getContractAddress());
         
-		return contract.getContractAddress();
+		return localeContract.getContractAddress();
 	}
 	
 	private Web3j startServer() throws IOException {
@@ -64,14 +61,15 @@ public class ServerHelper {
 
 	public void updateContract(Dossier dossier) throws Exception {
 		
-		BigInteger min = new BigInteger("20000000000");
-		BigInteger max = new BigInteger("4300000");
+		BigInteger value = new BigInteger("0");
+		BigInteger gasLimit = new BigInteger("2100000");
 		String address = dossier.getContract().getContractaddress();
 		String dossierStatus = createhash(dossier);
-		System.out.println("status1: "+dossierStatus);
-		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , min, max);
+		BigInteger patient_id = new BigInteger(dossier.getPatient());
+		System.out.println("status 1: "+dossierStatus);
+		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , value, gasLimit);
 
-		RemoteCall<TransactionReceipt> transaction = healthCheckContract.setDossierStatus(dossierStatus);
+		RemoteCall<TransactionReceipt> transaction = healthCheckContract.setDossierStatus(patient_id, dossierStatus);
 		dossier.getContract().setTransactieaddress(transaction.send().getTransactionHash());
 	}
 
@@ -87,12 +85,13 @@ public class ServerHelper {
 	}
 
 	public String getDossierStatus(Dossier dossier) throws Exception {
-		BigInteger gasPrice = new BigInteger("21000000");
+		BigInteger value = new BigInteger("0");
 		BigInteger gasLimit = new BigInteger("2100000");
 		String address = dossier.getContract().getContractaddress();
 
-		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , gasPrice , gasLimit);
-		String dossierStatus = healthCheckContract.getDossierstatus().send();
+		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , value , gasLimit);
+		BigInteger patient_id = new BigInteger(dossier.getPatient());
+		String dossierStatus = healthCheckContract.getDossierStatus(patient_id).send();
 		System.out.println("status1: "+dossierStatus);
 		return dossierStatus;
 	}

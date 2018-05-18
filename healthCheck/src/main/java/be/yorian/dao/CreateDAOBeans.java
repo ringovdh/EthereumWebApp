@@ -31,6 +31,7 @@ public class CreateDAOBeans {
 		sessionFactory.getHibernateProperties().put("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
 		sessionFactory.getHibernateProperties().put("hibernate.use_sql_comments", true);
 		sessionFactory.getHibernateProperties().put("hibernate.globally_quoted_identifiers", "true");
+		sessionFactory.getHibernateProperties().put("hibernate.show_sql", "true");
 		return sessionFactory;
 	}
 	

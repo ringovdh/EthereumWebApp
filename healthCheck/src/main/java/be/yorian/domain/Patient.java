@@ -3,22 +3,16 @@ package be.yorian.domain;
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("Patient")
-public class Patient {
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int patient_id;
+@Table(name = "patient")
+public class Patient extends User{
 	
 	private String referentie;
 	
 	private String rijksregisternr;
 	
-	private String naam;
-	
-	private String voornaam;
-	
-	private int userID;
+	private String userName;
+//	
+//	private String voornaam;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dossierID")
@@ -26,26 +20,15 @@ public class Patient {
 	
 	
 
-	
+	// -- constructor ----------------------------------------------------- //
 	public Patient() {
 		
 	}
 	
-	public Patient(String naam, String voornaam, String rijksregisternr) {
 
-		this.naam = naam;
-		this.voornaam = voornaam;
-		this.rijksregisternr = rijksregisternr;
-		
-	}
-
-	public int getId() {
-		return patient_id;
-	}
-	public void setId(int id) {
-		this.patient_id = id;
-	}
-
+	
+	
+	// -- getter en setter ------------------------------------------------ //
 	public String getReferentie() {
 		return referentie;
 	}
@@ -54,6 +37,9 @@ public class Patient {
 		this.referentie = referentie;
 	}
 
+	
+	
+	
 	public String getRijksregisternr() {
 		return rijksregisternr;
 	}
@@ -62,30 +48,32 @@ public class Patient {
 		this.rijksregisternr = rijksregisternr;
 	}
 
-	public String getNaam() {
-		return naam;
+	
+	
+	
+	
+	public String getuserName() {
+		return userName;
 	}
 
-	public void setNaam(String naam) {
-		this.naam = naam;
+	public void setuserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getVoornaam() {
-		return voornaam;
-	}
+	
+	
+	
+//	public String getVoornaam() {
+//		return voornaam;
+//	}
+//
+//	public void setVoornaam(String voornaam) {
+//		this.voornaam = voornaam;
+//	}
 
-	public void setVoornaam(String voornaam) {
-		this.voornaam = voornaam;
-	}
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-
+	
+	
+	
 	public Dossier getDossier() {
 		return dossier;
 	}

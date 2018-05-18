@@ -1,17 +1,17 @@
 package be.yorian.domain;
 
-import java.util.Collection;
-
-import javax.persistence.*;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails{
-
-	private static final long serialVersionUID = 1L;
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User {
 
 	@Id
 	@GeneratedValue
@@ -25,6 +25,16 @@ public class User implements UserDetails{
 
 	@Column(name = "username")
 	private String userName;
+
+	@Column(name = "naam")
+	private String naam;
+	
+	@Column(name = "voornaam")
+	private String voornaam;
+	
+	@Column(name = "discriminator")
+	private String discriminator;
+	
 	
 	public int getUserID() {
 		return id;
@@ -34,46 +44,39 @@ public class User implements UserDetails{
 		return email;
 	}
 
-	@Override
 	public String getPassword() {
 		
 		return this.password;
 	}
 
-	@Override
 	public String getUsername() {
 		
 		return this.userName;
 	}
+	
+	public String getNaam() {
+		return naam;
+	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setNaam(String naam) {
+		this.naam = naam;
+	}
+
+	public String getVoornaam() {
+		return voornaam;
+	}
+
+	public void setVoornaam(String voornaam) {
+		this.voornaam = voornaam;
 	}
 	
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+	public String getDiscriminator() {
+		return discriminator;
 	}
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setDiscriminator(String discriminator) {
+		this.discriminator = discriminator;
 	}
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

@@ -9,4 +9,8 @@ public interface PatientDAO{
 	public void savePatient(Patient patient);
 
 	public Patient findPatientByID(int id);
+
+	public Patient findPatientByRRN(String rijksregisternr);
+
+	public Patient findPatientByUserName(String name);
 }

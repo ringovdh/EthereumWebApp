@@ -11,5 +11,7 @@ public interface PatientService {
 	Patient findPatientByUserName(Authentication user);
 
 	Patient findPatientByID(int id);
+
+	Patient findPatientByRRN(String rijksregisternr);
 	
 }

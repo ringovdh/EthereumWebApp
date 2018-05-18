@@ -6,4 +6,6 @@ public interface DossierDAO{
 
 	public Dossier findDossier(int id);
 
+	public void saveDossier(Dossier dossier);
+
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import be.yorian.domain.User;
+import be.yorian.domain.Patient;
 
 @Transactional(value = "txName")
 @Repository
@@ -17,12 +17,12 @@ public class UserDAOImpl implements UserDAO{
 	private SessionFactory sessionFactory;
 
 	@Override
-	public User findUserByUserName(String userName) {
+	public Patient findUserByUserName(String userName) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query query = currentSession.createQuery("FROM User WHERE username = :userName");
+		Query query = currentSession.createQuery("FROM Patient p LEFT JOIN fetch p.dossier WHERE username = :userName ");
 		query.setParameter("userName", userName);
-		User result = (User) query.uniqueResult();
-		return result;
+		Object uniqueResult = query.uniqueResult();
+		return (Patient) uniqueResult;
 	}
 
 

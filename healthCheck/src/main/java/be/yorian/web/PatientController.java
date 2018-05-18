@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import be.yorian.domain.Contract;
+import be.yorian.domain.Dossier;
 import be.yorian.domain.Patient;
 import be.yorian.services.ContractService;
+import be.yorian.services.DossierService;
 import be.yorian.services.PatientService;
 
 
@@ -25,33 +27,35 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@Autowired
+	private DossierService dossierService;
+	
+	@Autowired
 	private ContractService contractService;
 
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPatient(Authentication user) throws Exception {
 		
+		boolean check = false;
 		Patient patient = patientService.findPatientByUserName(user);
-		boolean check = contractService.compareDossier(patient.getDossier());
-		
+		Dossier dossier = dossierService.findDossierById(patient.getDossier().getDossier_id());
+		if(dossier.getContract() != null){
+			check = contractService.compareDossier(dossier);
+		}
 		ModelAndView modelAndView = new ModelAndView(PATIENT_VIEW);
 		modelAndView.addObject("patient", patient);
 		modelAndView.addObject("check", check);
-		
+		modelAndView.addObject("dossier", dossier);
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/bewaren", method = RequestMethod.POST)
-	public String bewaren(@ModelAttribute("patient") Patient patientModel, RedirectAttributes ra) throws Exception {
+	public String bewaren(@ModelAttribute("dossier") Dossier dossierModel, RedirectAttributes ra) throws Exception {
 
-		Patient patient = patientService.findPatientByID(patientModel.getId());
-		
-		patient.getDossier().setHuisarts(patientModel.getDossier().getHuisarts());
-		
-		Contract contract = contractService.handleContract(patient);
+
+		Dossier dossier = dossierService.findDossierById(dossierModel.getDossier_id());
+		Contract contract = contractService.handleContract(dossier);
 	    ra.addFlashAttribute("contract", contract);
-		
-		patientService.savePatient(patient);
 		
 		return "redirect:/contract";
 	}

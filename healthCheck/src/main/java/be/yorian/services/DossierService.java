@@ -4,5 +4,7 @@ import be.yorian.domain.Dossier;
 
 public interface DossierService {
 
-	Dossier findDossier(int id);
+	Dossier findDossierById(int id);
+
+	
 }

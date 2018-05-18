@@ -11,13 +11,15 @@
 <body>
 	<v:menu />
 	<div class="container">
+	
+		<h1>Aanmelden</h1>
+		
 		<div class="banner">
 			<img src="images/banner.png"
 				alt="Health Check - Health Check banner afbeelding"
 				title="Health Check banner" />
 		</div>
-		<h1>Aanmelden</h1>
-
+		
 		<div id="mainWrapper">
 			<div class="login-container">
 				<div class="login-card">

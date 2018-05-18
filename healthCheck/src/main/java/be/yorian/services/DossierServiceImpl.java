@@ -13,7 +13,7 @@ public class DossierServiceImpl implements DossierService{
 	private DossierDAO dossierDAO;
 
 	@Override
-	public Dossier findDossier(int id) {
+	public Dossier findDossierById(int id) {
 			
 		Dossier dossier = dossierDAO.findDossier(id);
 

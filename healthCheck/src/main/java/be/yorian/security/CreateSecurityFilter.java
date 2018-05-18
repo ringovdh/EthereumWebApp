@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 @EnableWebMvcSecurity
 public class CreateSecurityFilter extends WebSecurityConfigurerAdapter {
 	
-	private static final String USERS_BY_USERNAME = "select username as username, passwd as passwd, user_id as User_id from users where username = ?";
+	private static final String USERS_BY_USERNAME = "select username as username, passwd as passwd, user_id as user_id from users where username = ?";
 	private static final String AUTHORITIES_BY_USERNAME = "select username as username, discriminator as authorities from users where username = ?";
 	@Autowired
 	private DataSource dataSource;

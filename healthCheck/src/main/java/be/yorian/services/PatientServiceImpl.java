@@ -5,17 +5,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import be.yorian.dao.PatientDAO;
-import be.yorian.dao.UserDAO;
 import be.yorian.domain.Patient;
-import be.yorian.domain.User;
 
 @Service
 public class PatientServiceImpl implements PatientService{
 
 	@Autowired
 	private PatientDAO patientDAO;
-	@Autowired
-	private UserDAO userDAO;
 
 
 	@Override
@@ -27,8 +23,7 @@ public class PatientServiceImpl implements PatientService{
 	@Override
 	public Patient findPatientByUserName(Authentication loggedInUser) {
 
-		User user = userDAO.findUserByUserName(loggedInUser.getName());
-		Patient patient = patientDAO.findPatientByUserID(user.getUserID());
+		Patient patient = patientDAO.findPatientByUserName(loggedInUser.getName());
 		
 		return patient;
 	}
@@ -37,6 +32,14 @@ public class PatientServiceImpl implements PatientService{
 	public Patient findPatientByID(int id) {
 		
 		Patient patient = patientDAO.findPatientByID(id);
+		
+		return patient;
+	}
+
+	@Override
+	public Patient findPatientByRRN(String rijksregisternr) {
+		
+		Patient patient = patientDAO.findPatientByRRN(rijksregisternr);
 		
 		return patient;
 	}

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import be.yorian.domain.Contract;
+import be.yorian.domain.Patient;
 import be.yorian.services.ContractService;
+import be.yorian.services.PatientService;
 
 @Controller
 @RequestMapping("/contract")
@@ -19,15 +21,19 @@ public class ContractController {
 	
 	@Autowired
 	private ContractService contractService;
+	
+	@Autowired
+	private PatientService patientService;
 
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String mijnContract(Authentication user, Model model) {
-		
-		Contract contract = contractService.findContractByUserId(user);
+		Patient patient = patientService.findPatientByUserName(user);
+		Contract contract = patient.getDossier().getContract();
 		model.addAttribute("contractaddress", contract.getContractaddress());
-        model.addAttribute("transactionaddress", contract.getTransactieaddress());
-
+		if (contract.getTransactieaddress() != null){
+			model.addAttribute("transactionaddress", contract.getTransactieaddress());
+		}
 		return CONTRACT_VIEW;
 	}
 	

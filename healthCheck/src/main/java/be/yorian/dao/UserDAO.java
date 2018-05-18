@@ -1,9 +1,9 @@
 package be.yorian.dao;
 
-import be.yorian.domain.User;
+import be.yorian.domain.Patient;
 
 public interface UserDAO{
 
-	public User findUserByUserName(String username);
+	public Patient findUserByUserName(String username);
 
 }

@@ -17,13 +17,24 @@ public class DossierDAOImpl implements DossierDAO{
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Dossier findDossier(int id) {
+	public Dossier findDossier(int dossier_id) {
+
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query query = currentSession.createQuery("FROM Dossier WHERE id = :id");
-		query.setParameter("id", id);
-		Dossier result = (Dossier) query.uniqueResult();
-		return result;
+		Query query = currentSession.createQuery("FROM Dossier d LEFT JOIN fetch d.verstrekkers WHERE d.dossier_id = :dossier_id");
+		query.setParameter("dossier_id", dossier_id);
+
+		return (Dossier) query.uniqueResult();
 	}
+
+	@Override
+	public void saveDossier(Dossier dossier) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(dossier);
+		
+	}
+	
+	
 
 }
 	
