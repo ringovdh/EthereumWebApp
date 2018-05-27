@@ -3,10 +3,6 @@
 <%@taglib prefix='s' uri='http://www.springframework.org/security/tags'%>
 <header>
 	<div class="container">
-		<div class="logo">
-			<a href="<c:url value='/'/>"><img src="images/logo-MMD.png"
-				alt="logo Give a Day"></a>
-		</div>
 		<div class="glyphicon glyphicon-menu-hamburger"></div>
 		<div class="navigation-wrapper">
 			<nav>

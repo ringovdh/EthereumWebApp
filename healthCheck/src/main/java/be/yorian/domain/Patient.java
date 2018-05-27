@@ -11,8 +11,10 @@ public class Patient extends User{
 	private String rijksregisternr;
 	
 	private String userName;
-//	
-//	private String voornaam;
+
+	private String geboortedatum;
+	
+	private String geslacht;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dossierID")
@@ -51,7 +53,6 @@ public class Patient extends User{
 	
 	
 	
-	
 	public String getuserName() {
 		return userName;
 	}
@@ -60,18 +61,7 @@ public class Patient extends User{
 		this.userName = userName;
 	}
 
-	
-	
-	
-//	public String getVoornaam() {
-//		return voornaam;
-//	}
-//
-//	public void setVoornaam(String voornaam) {
-//		this.voornaam = voornaam;
-//	}
 
-	
 	
 	
 	public Dossier getDossier() {
@@ -81,5 +71,27 @@ public class Patient extends User{
 	public void setDossier(Dossier dossier) {
 		this.dossier = dossier;
 	}
+
+
 	
+
+	public String getGeboortedatum() {
+		return geboortedatum;
+	}
+	
+	public void setGeboortedatum(String geboortedatum) {
+		this.geboortedatum = geboortedatum;
+	}
+
+
+
+
+	public String getGeslacht() {
+		return geslacht;
+	}
+
+	public void setGeslacht(String geslacht) {
+		this.geslacht = geslacht;
+	}
+
 }

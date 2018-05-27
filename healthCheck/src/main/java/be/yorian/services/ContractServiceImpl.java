@@ -32,7 +32,8 @@ public class ContractServiceImpl implements ContractService {
 		if (contract == null) {
 			contract = new Contract();
 			contract.setDossierstatus(server.createhash(dossier));
-			contract.setContractaddress(server.deployNewContract(dossier,contract.getDossierstatus()));
+			int itemID = dossier.getItems().get(0).getItem_id();
+			contract.setContractaddress(server.deployNewContract(dossier,contract.getDossierstatus(), itemID));
 			dossier.setContract(contract);
 		}
 		else {
@@ -57,6 +58,7 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public boolean compareDossier(Dossier dossier) throws Exception {
 		ServerHelper server = new ServerHelper();
+		
 		String dossierHash = server.createhash(dossier);
 		String dossierHashFromBlock = server.getDossierStatus(dossier);
 		if(dossierHash.equals(dossierHashFromBlock)) {

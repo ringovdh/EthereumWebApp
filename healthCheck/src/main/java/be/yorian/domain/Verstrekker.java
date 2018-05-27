@@ -46,6 +46,12 @@ public class Verstrekker{
 	
 	@Column
 	private String voornaam;
+	
+	@Column
+	private boolean leesRechten;
+	
+	@Column
+	private boolean schrijfRechten;
 
 	
 	// -- constructor ----------------------------------------------------- //
@@ -120,6 +126,28 @@ public class Verstrekker{
 
 	public void setVoornaam(String voornaam) {
 		this.voornaam = voornaam;
+	}
+
+
+
+
+	public boolean isLeesRechten() {
+		return leesRechten;
+	}
+
+	public void setLeesRechten(boolean leesRechten) {
+		this.leesRechten = leesRechten;
+	}
+
+
+
+
+	public boolean isSchrijfRechten() {
+		return schrijfRechten;
+	}
+
+	public void setSchrijfRechten(boolean schrijfRechten) {
+		this.schrijfRechten = schrijfRechten;
 	}
 	
 }

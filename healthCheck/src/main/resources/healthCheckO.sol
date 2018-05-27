@@ -3,41 +3,46 @@ pragma solidity ^0.4.17;
 contract HealthCheck {
     
     string dossierStatus;
-    mapping (uint => uint) public read_write;
+    mapping (uint => uint) public read;
+    mapping (uint => uint) public write;
     uint[] public items;
     
     function HealthCheck(uint _patientID, string _dossierStatus, uint _itemID) public {
-        read_write[_patientID] = 2;
+        read[_patientID] = 1;
+        write[_patientID] = 1;
         items.push(_itemID);
         dossierStatus = _dossierStatus;
     }
     
-    function addVerstrekkerToRead_write(uint _verstrekker_id, uint _right) public {
-		read_write[_verstrekker_id] = _right;
+    function addVerstrekkerToRead(uint _verstrekker_id) public {
+		read[_verstrekker_id] = 1;
+	}
+	
+	function addVerstrekkerToWrite(uint _verstrekker_id) public {
+		write[_verstrekker_id] = 1;
 	}
 	
 	function addItem(uint _itemID, uint _verstrekker_id) public {
-	    if (read_write[_verstrekker_id] == 2) {
+	    if (write[_verstrekker_id] == 1) {
 		    items.push(_itemID);
 	    }
 	}
 	
-	function getItems(uint _verstrekker_id) public view returns (uint[]){
-	    if (read_write[_verstrekker_id] == 1 || read_write[_verstrekker_id] == 2) {
-		    return items;
-	    }
+	function getItems() public view returns (uint[])
+    {
+    	return items;
     }
 	
 	function getDossierStatus(uint _verstrekker_id) public view returns (string){
-	    if (read_write[_verstrekker_id] == 1 || read_write[_verstrekker_id] == 2) {
+	    if (read[_verstrekker_id] == 1) {
 	        return dossierStatus;
 	    } else {
-	        return "no access";
+	        return "geen toegang";
 	    }
 	}
 	
 	function setDossierStatus(uint _verstrekker_id, string _dossierStatus ) public{
-	    if (read_write[_verstrekker_id] == 2) {
+	    if (write[_verstrekker_id] == 1) {
 	        dossierStatus = _dossierStatus;
 	    } 
 	}

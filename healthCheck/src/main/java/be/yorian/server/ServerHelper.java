@@ -2,6 +2,7 @@ package be.yorian.server;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.List;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -26,11 +27,12 @@ public class ServerHelper {
 		this.credentials = loadCredentials(); 
 	}
 	
-	public String deployNewContract(Dossier dossier, String status) throws Exception {
+	public String deployNewContract(Dossier dossier, String status, int itemID) throws Exception {
 		BigInteger value = new BigInteger("210000000");
 		BigInteger gasLimit = new BigInteger("2100000");
-		BigInteger patient_id = new BigInteger(dossier.getPatient());
-		HealthCheck localeContract = HealthCheck.deploy(web3jServer, credentials, value , gasLimit, patient_id, status).send();
+		BigInteger patient_id = new BigInteger(dossier.getPatient_id());
+		BigInteger item_id = BigInteger.valueOf(itemID);
+		HealthCheck localeContract = HealthCheck.deploy(web3jServer, credentials, value , gasLimit, patient_id, status, item_id).send();
 		System.out.println( "contractaddress: "+localeContract.getContractAddress());
         
 		return localeContract.getContractAddress();
@@ -61,13 +63,10 @@ public class ServerHelper {
 
 	public void updateContract(Dossier dossier) throws Exception {
 		
-		BigInteger value = new BigInteger("0");
-		BigInteger gasLimit = new BigInteger("2100000");
-		String address = dossier.getContract().getContractaddress();
+		HealthCheck healthCheckContract = getContract(dossier);
+
 		String dossierStatus = createhash(dossier);
-		BigInteger patient_id = new BigInteger(dossier.getPatient());
-		System.out.println("status 1: "+dossierStatus);
-		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , value, gasLimit);
+		BigInteger patient_id = new BigInteger(dossier.getPatient_id());
 
 		RemoteCall<TransactionReceipt> transaction = healthCheckContract.setDossierStatus(patient_id, dossierStatus);
 		dossier.getContract().setTransactieaddress(transaction.send().getTransactionHash());
@@ -80,20 +79,43 @@ public class ServerHelper {
 		String dossierAsString = dossier.toString();
 		int hashcode = dossierAsString.hashCode();
 		String dossierStatus = Integer.toString(hashcode);
-		System.out.println("status: "+dossierStatus);
+		System.out.println("lokale status: "+dossierStatus);
 	    return dossierStatus;
 	}
 
 	public String getDossierStatus(Dossier dossier) throws Exception {
+		HealthCheck healthCheckContract = getContract(dossier);
+		BigInteger patient_id = new BigInteger(dossier.getPatient_id());
+		String dossierStatus = healthCheckContract.getDossierStatus(patient_id).send();
+		System.out.println("status from block: "+dossierStatus);
+		return dossierStatus;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BigInteger> getItems(Dossier dossier) throws Exception {
+		HealthCheck healthCheckContract = getContract(dossier);
+		
+		List<BigInteger> items = healthCheckContract.getItems().send();
+		
+		return items;
+	}
+
+	private HealthCheck getContract(Dossier dossier) {
 		BigInteger value = new BigInteger("0");
 		BigInteger gasLimit = new BigInteger("2100000");
 		String address = dossier.getContract().getContractaddress();
-
+		
 		HealthCheck healthCheckContract = HealthCheck.load(address, web3jServer, credentials , value , gasLimit);
-		BigInteger patient_id = new BigInteger(dossier.getPatient());
-		String dossierStatus = healthCheckContract.getDossierStatus(patient_id).send();
-		System.out.println("status1: "+dossierStatus);
-		return dossierStatus;
+		
+		return healthCheckContract;
+	}
+
+	public void addItem(int itemID, Dossier dossier) {
+		HealthCheck healthCheckContract = getContract(dossier);
+		
+		healthCheckContract.addItem(BigInteger.valueOf(itemID), new BigInteger(dossier.getPatient_id()));
+		// TODO Auto-generated method stub
+		
 	}
 
 }

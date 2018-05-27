@@ -22,12 +22,21 @@
 				</div>
 				<div class="panel-body">
 					<table class="table table-hover">
+                		<thead>
+                    		<tr>
+                        		<th>Dossier</th>
+                        		<th>Patient id</th>
+                        		<th>Naam</th>
+                        		<th width="100"></th>
+                    		</tr>
+                		</thead>
 		                <tbody>
 			                <c:forEach items="${dossiers}" var="dossier">
 			                    <tr>
 			                        <td>${dossier.dossier_id}</td>
+			                        <td>${dossier.patient_id}</td>
 			                        <td>${dossier.patient}</td>
-			                        <td><a href="<c:url value='/edit-user-${dossier.dossier_id}' />" class="btn btn-success custom-width">edit</a></td>
+			                        <td><a href="<c:url value='/edit?dossier=${dossier.dossier_id}' />" class="btn btn-success custom-width">Open dossier</a></td>
 			                    </tr>
 			                </c:forEach>
 		                </tbody>
