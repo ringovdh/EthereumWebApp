@@ -36,7 +36,7 @@
 			                        <td>${dossier.dossier_id}</td>
 			                        <td>${dossier.patient_id}</td>
 			                        <td>${dossier.patient}</td>
-			                        <td><a href="<c:url value='/edit?dossier=${dossier.dossier_id}' />" class="btn btn-success custom-width">Open dossier</a></td>
+			                        <td><a href="<c:url value='/patient/consultaties?dossier=${dossier.dossier_id}' />" class="btn btn-success custom-width">Open dossier</a></td>
 			                    </tr>
 			                </c:forEach>
 		                </tbody>

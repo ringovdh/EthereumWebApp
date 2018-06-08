@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-md-4">
 				<div class="panel panel-default home-panel">
-					<h3>Burgers</h3>
+					<h2>Burgers</h2>
 					<p>U kan hier al uw medische gegevens beheren. U bepaald wie er toegang heeft tot uw gegevens</p>
 					<a href="<c:url value='/patient'/>" class="btn btn-primary">Inloggen</a>
 				</div>

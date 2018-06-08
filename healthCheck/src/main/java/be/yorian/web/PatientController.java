@@ -66,7 +66,7 @@ public class PatientController {
 	}
 
 	@RequestMapping(value = "/consultaties", method = RequestMethod.GET)
-	public ModelAndView toonConsultaties(@RequestParam("dossier") int id) throws Exception {
+	public ModelAndView toonConsultaties(@RequestParam("dossier") int id, Authentication user) throws Exception {
 		
 		Dossier dossier = dossierService.findDossierById(id);
 		if(dossier.getContract() != null){
